@@ -44,6 +44,7 @@ dependencies:
   pretty_dio_logger: ^1.4.0
   retrofit: ^4.4.1
   retrofit_generator: ^9.1.3
+  flutter_stripe: ^11.5.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0
