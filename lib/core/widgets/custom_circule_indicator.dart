@@ -7,10 +7,9 @@ class CustomCirculeIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  const SpinKitThreeBounce(
+    return const SpinKitThreeBounce(
       color: ColorsManager.primaryColor,
       size: 35,
     );
   }
 }
-

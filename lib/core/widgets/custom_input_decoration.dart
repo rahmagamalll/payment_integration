@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:payment/core/theming/colors.dart';
 
@@ -8,7 +7,9 @@ InputDecoration customInputDecoration({
   TextStyle? hintStyle,
   EdgeInsetsGeometry? contentPadding,
   bool readOnly = false,
-  BorderRadius borderRadius = const BorderRadius.all(Radius.circular(8),),
+  BorderRadius borderRadius = const BorderRadius.all(
+    Radius.circular(8),
+  ),
   Widget? prefixIcon,
   Widget? suffixIcon,
   String? prefixText,
