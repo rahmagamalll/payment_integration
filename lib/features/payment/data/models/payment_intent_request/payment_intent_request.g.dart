@@ -9,9 +9,9 @@ part of 'payment_intent_request.dart';
 PaymentIntentRequest _$PaymentIntentRequestFromJson(
         Map<String, dynamic> json) =>
     PaymentIntentRequest(
-      amount: json['amount'] as String?,
-      currency: json['currency'] as String?,
-      customer: json['customer'] as String?,
+      amount: json['amount'] as String,
+      currency: json['currency'] as String,
+      customerId: json['customerId'] as String?,
     );
 
 Map<String, dynamic> _$PaymentIntentRequestToJson(
@@ -19,5 +19,5 @@ Map<String, dynamic> _$PaymentIntentRequestToJson(
     <String, dynamic>{
       'amount': instance.amount,
       'currency': instance.currency,
-      'customer': instance.customer,
+      'customerId': instance.customerId,
     };

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payment/core/helper/spacing.dart';
 import 'package:payment/core/theming/colors.dart';
 import 'package:payment/core/widgets/custom_elevation_button.dart';
 import 'package:payment/core/widgets/custom_snack_bar.dart';
+import 'package:payment/features/payment/data/models/payment_intent_request/payment_intent_request.dart';
+import 'package:payment/features/payment/logic/make_payment_cubit/make_payment_cubit.dart';
 import 'package:payment/features/payment/ui/screens/visa_option_screen.dart';
 
 class OptionsList extends StatefulWidget {
@@ -55,7 +58,13 @@ class _OptionsListState extends State<OptionsList> {
         ),
         CustomElevationButton(
           title: 'Continue',
-          onPressed: navigateToScreen,
+          onPressed: () {
+            if (selectedPayment == 'visa') {
+              excuteStripePayment(context);
+            } else {
+              navigateToScreen();
+            }
+          },
         ),
       ],
     );
@@ -108,4 +117,15 @@ class _OptionsListState extends State<OptionsList> {
       ),
     );
   }
+}
+
+void excuteStripePayment(BuildContext context) {
+  PaymentIntentRequest paymentIntentRequest = PaymentIntentRequest(
+    amount: '6,879.0',
+    currency: 'USD',
+    customerId: 'pi_3RHAB7Rj84EIFQ7z1nhpWBVH',
+  );
+  context
+      .read<MakePaymentCubit>()
+      .makePayment(paymentIntentRequest: paymentIntentRequest);
 }
