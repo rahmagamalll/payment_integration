@@ -1,16 +1,16 @@
-# payment
+# Payment App
 
-A new Flutter project.
+A Flutter application for processing payments using PayPal and Stripe.
 
-## Getting Started
+## Features
+- PayPal payment integration
+- Stripe payment integration
+- Thank you screen after successful payment
 
-This project is a starting point for a Flutter application.
+## 🚀 Getting Started
 
-A few resources to get you started if this is your first Flutter project:
+### Prerequisites
+- A PayPal developer account (for testing PayPal)
+- A Stripe developer account (for testing Stripe)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
