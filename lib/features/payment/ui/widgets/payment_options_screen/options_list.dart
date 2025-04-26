@@ -1,10 +1,20 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:payment/core/helper/extensions.dart';
+import 'package:payment/core/helper/paypal_keys.dart';
 import 'package:payment/core/helper/spacing.dart';
+import 'package:payment/core/routing/routes.dart';
 import 'package:payment/core/theming/colors.dart';
 import 'package:payment/core/widgets/custom_elevation_button.dart';
 import 'package:payment/core/widgets/custom_snack_bar.dart';
+import 'package:payment/features/payment/data/models/payPal_models/amount_model/amount_model.dart';
+import 'package:payment/features/payment/data/models/payPal_models/amount_model/details.dart';
+import 'package:payment/features/payment/data/models/payPal_models/item_list_model/item.dart';
+import 'package:payment/features/payment/data/models/payPal_models/item_list_model/item_list_model.dart';
 import 'package:payment/features/payment/data/models/payment_intent_request/payment_intent_request.dart';
 import 'package:payment/features/payment/logic/make_payment_cubit/make_payment_cubit.dart';
 import 'package:payment/features/payment/ui/screens/visa_option_screen.dart';
@@ -47,7 +57,6 @@ class _OptionsListState extends State<OptionsList> {
       listener: (context, state) {
         if (state is MakePaymentLoading) {
           CustomSnackBar.show(context, 'Loading...');
-        } else if (state is MakePaymentSuccess) {
         } else if (state is MakePaymentError) {
           CustomSnackBar.show(context, state.errMessage, isError: true);
         }
@@ -70,8 +79,11 @@ class _OptionsListState extends State<OptionsList> {
             onPressed: () {
               if (selectedPayment == 'visa') {
                 excuteStripePayment(context);
+              } else if (selectedPayment == 'paypal') {
+                excutepayPalPayment(context);
               } else {
-                navigateToScreen();
+                CustomSnackBar.show(context, 'Please select a payment method.',
+                    isError: true);
               }
             },
           ),
@@ -131,10 +143,68 @@ class _OptionsListState extends State<OptionsList> {
 
 void excuteStripePayment(BuildContext context) {
   PaymentIntentRequest paymentIntentRequest = PaymentIntentRequest(
-    amount: '6879' '00',
+    amount: '687900',
     currency: 'USD',
     customerId: 'cus_SCFnUYF3obOQtn',
   );
   context.read<MakePaymentCubit>().makePayment(
       context: context, paymentIntentRequest: paymentIntentRequest);
 }
+
+void excutepayPalPayment(BuildContext context) {
+  Navigator.of(context).push(MaterialPageRoute(
+    builder: (BuildContext context) => PaypalCheckoutView(
+      sandboxMode: true,
+      clientId: PaypalKeys.clientId,
+      secretKey: PaypalKeys.secret,
+      transactions: [
+        {
+          "amount": modelsPaypal.amount.toJson(),
+          "description": "The payment transaction description.",
+          "item_list": modelsPaypal.itemList.toJson(),
+        }
+      ],
+      note: "Contact us for any questions on your order.",
+      onSuccess: (Map params) async {
+        log("onSuccess: $params");
+        context.pushReplacementNamed(Routes.thankYouScreen);
+      },
+      onError: (error) {
+        log("onError: $error");
+        context.pushReplacementNamed(Routes.thankYouScreen);
+      },
+      onCancel: () {
+        print('cancelled:');
+        Navigator.pop(context);
+      },
+    ),
+  ));
+}
+
+final modelsPaypal = () {
+  AmountModel amountModel = AmountModel(
+    total: '100',
+    currency: 'USD',
+    details: Details(
+      subtotal: '100',
+      shipping: '0',
+      shippingDiscount: 0,
+    ),
+  );
+  List<Item> items = [
+    Item(
+      name: 'Apple',
+      quantity: 4,
+      price: '10',
+      currency: 'USD',
+    ),
+    Item(
+      name: 'Pineapple',
+      quantity: 5,
+      price: '12',
+      currency: 'USD',
+    ),
+  ];
+  ItemListModel itemList = ItemListModel(items: items);
+  return (amount: amountModel, itemList: itemList);
+}();

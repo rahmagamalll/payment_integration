@@ -6,8 +6,8 @@ import 'klarna.dart';
 import 'link.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'payment_method_options.g.dart';
-@JsonSerializable()
 
+@JsonSerializable()
 class PaymentMethodOptions {
   Affirm? affirm;
   AmazonPay? amazonPay;

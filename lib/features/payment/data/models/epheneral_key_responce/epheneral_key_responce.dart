@@ -1,8 +1,8 @@
 import 'associated_object.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'epheneral_key_responce.g.dart';
-@JsonSerializable()
 
+@JsonSerializable()
 class EpheneralKeyResponce {
   String? id;
   String? object;
@@ -22,8 +22,7 @@ class EpheneralKeyResponce {
     this.secret,
   });
 
-   factory EpheneralKeyResponce.fromJson(Map<String, dynamic> json) =>
+  factory EpheneralKeyResponce.fromJson(Map<String, dynamic> json) =>
       _$EpheneralKeyResponceFromJson(json);
   Map<String, dynamic> toJson() => _$EpheneralKeyResponceToJson(this);
-
 }

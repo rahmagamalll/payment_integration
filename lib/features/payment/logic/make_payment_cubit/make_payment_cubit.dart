@@ -11,11 +11,12 @@ class MakePaymentCubit extends Cubit<MakePaymentState> {
   MakePaymentCubit(this.servicesRepo) : super(MakePaymentInitial());
   final PaymentServicesRepo servicesRepo;
   Future makePayment(
-      {required BuildContext context, required PaymentIntentRequest paymentIntentRequest}) async {
+      {required BuildContext context,
+      required PaymentIntentRequest paymentIntentRequest}) async {
     emit(MakePaymentLoading());
     try {
-      await servicesRepo.stripePayment(
-          context,paymentIntentRequest:  paymentIntentRequest);
+      await servicesRepo.stripePayment(context,
+          paymentIntentRequest: paymentIntentRequest);
 
       emit(MakePaymentSuccess(message: 'Payment successful'));
     } on StripeException catch (e) {
