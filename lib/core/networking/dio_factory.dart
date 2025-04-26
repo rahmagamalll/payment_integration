@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:payment/core/helper/stripe_keys.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'api_constants.dart';
 
@@ -11,8 +12,7 @@ class DioFactory {
       dio = Dio(BaseOptions(
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json',
-          // 'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer ${stripeKeys.secretKey}',
         },
         baseUrl: ApiConstants.baseUrl,
         connectTimeout: const Duration(seconds: 5000),

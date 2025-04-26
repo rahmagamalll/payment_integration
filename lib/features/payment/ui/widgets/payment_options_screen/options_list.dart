@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:payment/core/helper/spacing.dart';
 import 'package:payment/core/theming/colors.dart';
 import 'package:payment/core/widgets/custom_elevation_button.dart';
 import 'package:payment/core/widgets/custom_snack_bar.dart';
+import 'package:payment/features/payment/data/models/payment_intent_request/payment_intent_request.dart';
+import 'package:payment/features/payment/logic/make_payment_cubit/make_payment_cubit.dart';
 import 'package:payment/features/payment/ui/screens/visa_option_screen.dart';
 
 class OptionsList extends StatefulWidget {
@@ -40,24 +43,40 @@ class _OptionsListState extends State<OptionsList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: ListView(
-            children: [
-              buildPaymentOption(
-                  "Paypal", "paypal", "assets/images/paypal.png"),
-              verticalSpacing(8),
-              buildPaymentOption("Visa", "visa", "assets/images/visa.png"),
-            ],
+    return BlocListener<MakePaymentCubit, MakePaymentState>(
+      listener: (context, state) {
+        if (state is MakePaymentLoading) {
+          CustomSnackBar.show(context, 'Loading...');
+        } else if (state is MakePaymentSuccess) {
+        } else if (state is MakePaymentError) {
+          CustomSnackBar.show(context, state.errMessage, isError: true);
+        }
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: ListView(
+              children: [
+                buildPaymentOption(
+                    "Paypal", "paypal", "assets/images/paypal.png"),
+                verticalSpacing(8),
+                buildPaymentOption("Visa", "visa", "assets/images/visa.png"),
+              ],
+            ),
           ),
-        ),
-        CustomElevationButton(
-          title: 'Continue',
-          onPressed: navigateToScreen,
-        ),
-      ],
+          CustomElevationButton(
+            title: 'Continue',
+            onPressed: () {
+              if (selectedPayment == 'visa') {
+                excuteStripePayment(context);
+              } else {
+                navigateToScreen();
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -108,4 +127,14 @@ class _OptionsListState extends State<OptionsList> {
       ),
     );
   }
+}
+
+void excuteStripePayment(BuildContext context) {
+  PaymentIntentRequest paymentIntentRequest = PaymentIntentRequest(
+    amount: '6879' '00',
+    currency: 'USD',
+    customerId: 'cus_SCFnUYF3obOQtn',
+  );
+  context.read<MakePaymentCubit>().makePayment(
+      context: context, paymentIntentRequest: paymentIntentRequest);
 }

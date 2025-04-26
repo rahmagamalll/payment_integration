@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:payment/core/theming/colors.dart';
 
 class CustomSnackBar {
-
   static void show(BuildContext context, String message,
       {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(

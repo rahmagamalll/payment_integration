@@ -5,7 +5,7 @@ part 'api_error_model.g.dart';
 class ApiErrorModel {
   final String? message;
   final int? code;
-  final Map<String, List<String>>? errors; 
+  final Map<String, List<String>>? errors;
 
   ApiErrorModel({required this.message, this.code, this.errors});
 
