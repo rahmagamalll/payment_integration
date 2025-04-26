@@ -12,7 +12,6 @@ class DioFactory {
       dio = Dio(BaseOptions(
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json',
           'Authorization': 'Bearer ${stripeKeys.secretKey}',
         },
         baseUrl: ApiConstants.baseUrl,

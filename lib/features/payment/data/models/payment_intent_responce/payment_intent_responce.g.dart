@@ -11,13 +11,13 @@ PaymentIntentResponce _$PaymentIntentResponceFromJson(
     PaymentIntentResponce(
       id: json['id'] as String?,
       object: json['object'] as String?,
-      amount: (json['amount'] as num?)?.toInt(),
-      amountCapturable: (json['amountCapturable'] as num?)?.toInt(),
+      amount: (json['amount'] as num?)?.toInt() ?? 0,
+      amountCapturable: (json['amountCapturable'] as num?)?.toInt() ?? 0,
       amountDetails: json['amountDetails'] == null
           ? null
           : AmountDetails.fromJson(
               json['amountDetails'] as Map<String, dynamic>),
-      amountReceived: (json['amountReceived'] as num?)?.toInt(),
+      amountReceived: (json['amountReceived'] as num?)?.toInt() ?? 0,
       application: json['application'],
       applicationFeeAmount: json['applicationFeeAmount'],
       automaticPaymentMethods: json['automaticPaymentMethods'] == null
@@ -27,29 +27,33 @@ PaymentIntentResponce _$PaymentIntentResponceFromJson(
       canceledAt: json['canceledAt'],
       cancellationReason: json['cancellationReason'],
       captureMethod: json['captureMethod'] as String?,
-      clientSecret: json['clientSecret'] as String?,
+      clientSecret: json['client_secret'] as String?,
       confirmationMethod: json['confirmationMethod'] as String?,
       created: (json['created'] as num?)?.toInt(),
-      currency: json['currency'] as String?,
-      customer: json['customer'],
+      currency: json['currency'] as String? ?? 'USD',
+      customer: json['customer'] as String?,
       description: json['description'],
-      invoice: json['invoice'],
       lastPaymentError: json['lastPaymentError'],
       latestCharge: json['latestCharge'],
-      livemode: json['livemode'] as bool?,
+      livemode: json['livemode'] as bool? ?? false,
       metadata: json['metadata'] == null
           ? null
           : Metadata.fromJson(json['metadata'] as Map<String, dynamic>),
       nextAction: json['nextAction'],
       onBehalfOf: json['onBehalfOf'],
       paymentMethod: json['paymentMethod'],
+      paymentMethodConfigurationDetails:
+          json['paymentMethodConfigurationDetails'] == null
+              ? null
+              : PaymentMethodConfigurationDetails.fromJson(
+                  json['paymentMethodConfigurationDetails']
+                      as Map<String, dynamic>),
       paymentMethodOptions: json['paymentMethodOptions'] == null
           ? null
           : PaymentMethodOptions.fromJson(
               json['paymentMethodOptions'] as Map<String, dynamic>),
-      paymentMethodTypes: (json['paymentMethodTypes'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      paymentMethodTypes:
+          json['paymentMethodTypes'] as List<dynamic>? ?? const [],
       processing: json['processing'],
       receiptEmail: json['receiptEmail'],
       review: json['review'],
@@ -58,7 +62,7 @@ PaymentIntentResponce _$PaymentIntentResponceFromJson(
       source: json['source'],
       statementDescriptor: json['statementDescriptor'],
       statementDescriptorSuffix: json['statementDescriptorSuffix'],
-      status: json['status'] as String?,
+      status: json['status'] as String? ?? 'pending',
       transferData: json['transferData'],
       transferGroup: json['transferGroup'],
     );
@@ -78,13 +82,12 @@ Map<String, dynamic> _$PaymentIntentResponceToJson(
       'canceledAt': instance.canceledAt,
       'cancellationReason': instance.cancellationReason,
       'captureMethod': instance.captureMethod,
-      'clientSecret': instance.clientSecret,
+      'client_secret': instance.clientSecret,
       'confirmationMethod': instance.confirmationMethod,
       'created': instance.created,
       'currency': instance.currency,
       'customer': instance.customer,
       'description': instance.description,
-      'invoice': instance.invoice,
       'lastPaymentError': instance.lastPaymentError,
       'latestCharge': instance.latestCharge,
       'livemode': instance.livemode,
@@ -92,6 +95,8 @@ Map<String, dynamic> _$PaymentIntentResponceToJson(
       'nextAction': instance.nextAction,
       'onBehalfOf': instance.onBehalfOf,
       'paymentMethod': instance.paymentMethod,
+      'paymentMethodConfigurationDetails':
+          instance.paymentMethodConfigurationDetails,
       'paymentMethodOptions': instance.paymentMethodOptions,
       'paymentMethodTypes': instance.paymentMethodTypes,
       'processing': instance.processing,

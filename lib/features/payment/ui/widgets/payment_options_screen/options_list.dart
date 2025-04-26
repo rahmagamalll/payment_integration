@@ -43,30 +43,40 @@ class _OptionsListState extends State<OptionsList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: ListView(
-            children: [
-              buildPaymentOption(
-                  "Paypal", "paypal", "assets/images/paypal.png"),
-              verticalSpacing(8),
-              buildPaymentOption("Visa", "visa", "assets/images/visa.png"),
-            ],
+    return BlocListener<MakePaymentCubit, MakePaymentState>(
+      listener: (context, state) {
+        if (state is MakePaymentLoading) {
+          CustomSnackBar.show(context, 'Loading...');
+        } else if (state is MakePaymentSuccess) {
+        } else if (state is MakePaymentError) {
+          CustomSnackBar.show(context, state.errMessage, isError: true);
+        }
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: ListView(
+              children: [
+                buildPaymentOption(
+                    "Paypal", "paypal", "assets/images/paypal.png"),
+                verticalSpacing(8),
+                buildPaymentOption("Visa", "visa", "assets/images/visa.png"),
+              ],
+            ),
           ),
-        ),
-        CustomElevationButton(
-          title: 'Continue',
-          onPressed: () {
-            if (selectedPayment == 'visa') {
-              excuteStripePayment(context);
-            } else {
-              navigateToScreen();
-            }
-          },
-        ),
-      ],
+          CustomElevationButton(
+            title: 'Continue',
+            onPressed: () {
+              if (selectedPayment == 'visa') {
+                excuteStripePayment(context);
+              } else {
+                navigateToScreen();
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -121,11 +131,10 @@ class _OptionsListState extends State<OptionsList> {
 
 void excuteStripePayment(BuildContext context) {
   PaymentIntentRequest paymentIntentRequest = PaymentIntentRequest(
-    amount: '6,879.0',
+    amount: '6879' '00',
     currency: 'USD',
-    customerId: 'pi_3RHAB7Rj84EIFQ7z1nhpWBVH',
+    customerId: 'cus_SCFnUYF3obOQtn',
   );
-  context
-      .read<MakePaymentCubit>()
-      .makePayment(paymentIntentRequest: paymentIntentRequest);
+  context.read<MakePaymentCubit>().makePayment(
+      context: context, paymentIntentRequest: paymentIntentRequest);
 }

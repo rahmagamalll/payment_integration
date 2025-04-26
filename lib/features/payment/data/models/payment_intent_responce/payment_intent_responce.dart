@@ -1,10 +1,12 @@
 import 'amount_details.dart';
 import 'automatic_payment_methods.dart';
 import 'metadata.dart';
+import 'payment_method_configuration_details.dart';
 import 'payment_method_options.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'payment_intent_responce.g.dart';
 
+@JsonSerializable()
 @JsonSerializable()
 class PaymentIntentResponce {
   String? id;
@@ -19,13 +21,13 @@ class PaymentIntentResponce {
   dynamic canceledAt;
   dynamic cancellationReason;
   String? captureMethod;
+  @JsonKey(name: 'client_secret')
   String? clientSecret;
   String? confirmationMethod;
   int? created;
   String? currency;
-  dynamic customer;
+  String? customer;
   dynamic description;
-  dynamic invoice;
   dynamic lastPaymentError;
   dynamic latestCharge;
   bool? livemode;
@@ -33,8 +35,9 @@ class PaymentIntentResponce {
   dynamic nextAction;
   dynamic onBehalfOf;
   dynamic paymentMethod;
+  PaymentMethodConfigurationDetails? paymentMethodConfigurationDetails;
   PaymentMethodOptions? paymentMethodOptions;
-  List<String>? paymentMethodTypes;
+  List<dynamic>? paymentMethodTypes;
   dynamic processing;
   dynamic receiptEmail;
   dynamic review;
@@ -47,13 +50,14 @@ class PaymentIntentResponce {
   dynamic transferData;
   dynamic transferGroup;
 
+  // Constructor with default values
   PaymentIntentResponce({
     this.id,
     this.object,
-    this.amount,
-    this.amountCapturable,
+    this.amount = 0, // default value 0
+    this.amountCapturable = 0, // default value 0
     this.amountDetails,
-    this.amountReceived,
+    this.amountReceived = 0, // default value 0
     this.application,
     this.applicationFeeAmount,
     this.automaticPaymentMethods,
@@ -63,19 +67,19 @@ class PaymentIntentResponce {
     this.clientSecret,
     this.confirmationMethod,
     this.created,
-    this.currency,
+    this.currency = 'USD', // default currency
     this.customer,
     this.description,
-    this.invoice,
     this.lastPaymentError,
     this.latestCharge,
-    this.livemode,
+    this.livemode = false, // default false
     this.metadata,
     this.nextAction,
     this.onBehalfOf,
     this.paymentMethod,
+    this.paymentMethodConfigurationDetails,
     this.paymentMethodOptions,
-    this.paymentMethodTypes,
+    this.paymentMethodTypes = const [], // empty list by default
     this.processing,
     this.receiptEmail,
     this.review,
@@ -84,11 +88,13 @@ class PaymentIntentResponce {
     this.source,
     this.statementDescriptor,
     this.statementDescriptorSuffix,
-    this.status,
+    this.status = 'pending', // default status
     this.transferData,
     this.transferGroup,
-  }); 
+  });
+
   factory PaymentIntentResponce.fromJson(Map<String, dynamic> json) =>
       _$PaymentIntentResponceFromJson(json);
+
   Map<String, dynamic> toJson() => _$PaymentIntentResponceToJson(this);
 }

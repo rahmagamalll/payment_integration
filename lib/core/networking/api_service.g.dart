@@ -50,10 +50,14 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<EpheneralKeyResponce> createEphemeralKey(String customerId) async {
+  Future<EpheneralKeyResponce> createEphemeralKey(
+    String customerId,
+    String stripeVersion,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Stripe-Version': stripeVersion};
+    _headers.removeWhere((k, v) => v == null);
     final _data = {'customer': customerId};
     final _options = _setStreamType<EpheneralKeyResponce>(
       Options(method: 'POST', headers: _headers, extra: _extra)

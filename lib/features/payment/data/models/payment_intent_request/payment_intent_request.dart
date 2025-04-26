@@ -5,6 +5,7 @@ part 'payment_intent_request.g.dart';
 class PaymentIntentRequest {
   final String amount;
   final String currency;
+  @JsonKey(name: 'customer')
   final String? customerId;
 
   PaymentIntentRequest({

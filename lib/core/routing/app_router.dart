@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:payment/core/routing/routes.dart';
 import 'package:payment/features/payment/ui/screens/my_cart_screen.dart';
 import 'package:payment/features/payment/ui/screens/payment_options_screen.dart';
+import 'package:payment/features/payment/ui/screens/thank_you_screen.dart';
 import 'package:payment/features/payment/ui/screens/visa_option_screen.dart';
 
 class AppRouter {
@@ -20,6 +21,11 @@ class AppRouter {
       case Routes.visaOptionScreen:
         return _createPageTransition(
           child: const VisaOptionScreen(),
+          transitionType: PageTransitionType.scale,
+        );
+      case Routes.thankYouScreen:
+        return _createPageTransition(
+          child: const ThankYouScreen(),
           transitionType: PageTransitionType.scale,
         );
 

@@ -11,7 +11,7 @@ PaymentIntentRequest _$PaymentIntentRequestFromJson(
     PaymentIntentRequest(
       amount: json['amount'] as String,
       currency: json['currency'] as String,
-      customerId: json['customerId'] as String?,
+      customerId: json['customer'] as String?,
     );
 
 Map<String, dynamic> _$PaymentIntentRequestToJson(
@@ -19,5 +19,5 @@ Map<String, dynamic> _$PaymentIntentRequestToJson(
     <String, dynamic>{
       'amount': instance.amount,
       'currency': instance.currency,
-      'customerId': instance.customerId,
+      'customer': instance.customerId,
     };
