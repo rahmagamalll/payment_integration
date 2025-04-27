@@ -183,27 +183,22 @@ void excutepayPalPayment(BuildContext context) {
 
 final modelsPaypal = () {
   AmountModel amountModel = AmountModel(
-    total: '100',
+    total: '6879',
     currency: 'USD',
     details: Details(
-      subtotal: '100',
+      subtotal: '6879',
       shipping: '0',
       shippingDiscount: 0,
     ),
   );
   List<Item> items = [
     Item(
-      name: 'Apple',
-      quantity: 4,
-      price: '10',
+      name: 'snickers',
+      quantity: 1,
+      price: '6879',
       currency: 'USD',
     ),
-    Item(
-      name: 'Pineapple',
-      quantity: 5,
-      price: '12',
-      currency: 'USD',
-    ),
+   
   ];
   ItemListModel itemList = ItemListModel(items: items);
   return (amount: amountModel, itemList: itemList);

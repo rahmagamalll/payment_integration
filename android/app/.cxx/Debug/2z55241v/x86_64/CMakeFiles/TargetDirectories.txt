@@ -1,0 +1,2 @@
+D:/Flutter Projects/payment_integrate_ app/android/app/.cxx/Debug/2z55241v/x86_64/CMakeFiles/edit_cache.dir
+D:/Flutter Projects/payment_integrate_ app/android/app/.cxx/Debug/2z55241v/x86_64/CMakeFiles/rebuild_cache.dir
